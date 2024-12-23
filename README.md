@@ -1,2 +1,3 @@
 # personal-website-v3
-Working against the clock to squeeze in as much learning as possible in a single day
+
+Soham Basu | Software Developer and Computer Science + Finance at the University of Waterloo
