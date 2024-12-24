@@ -14,10 +14,10 @@ export default function ThreeDShapes() {
   const mouse = useRef({ x: 0, y: 0 });
 
   const MIN_DISTANCE = 6; // Distance to trigger repulsion
-  const REPULSION_STRENGTH = 0.04; // How strongly they repel away from cursor
+  const REPULSION_STRENGTH = 0.5; // How strongly they repel away from cursor
   const RESTORING_STRENGTH = 0.003; // How strongly they go back to spawn point
   const FRICTION = 0.8; // How quickly they slow down
-  const MIN_VELOCITY = 0.001; // The minimum speed they maintain
+  const MIN_VELOCITY = 0.005; // The minimum speed they maintain
 
   useEffect(() => {
     if (!mountRef.current) return;
@@ -43,9 +43,9 @@ export default function ThreeDShapes() {
 
     for (let i = 0; i < numToruses; i++) {
       const colors = [
-        { color: 0x3d3d3d, weight: 0.4 },
-        { color: 0xa6a6a6, weight: 0.25 },
-        { color: 0x0000ff, weight: 0.35 },
+        { color: 0x28282B, weight: 0.4 },
+        { color: 0xC0C0C0, weight: 0.25 },
+        { color: 0xb0c4de, weight: 0.35 },
       ];
 
       const pickColor = () => {

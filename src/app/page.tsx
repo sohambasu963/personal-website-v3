@@ -4,9 +4,12 @@ import ThreeDShapes from "./components/3d-shapes";
 
 export default function Home() {
   return (
-    <div>
+    <div className="min-h-screen">
       <ThreeDShapes />
       <Topbar />
+      <div className="flex justify-center">
+        <h1 className="mt-[20%]">Hello</h1>
+      </div>
     </div>
   );
 }

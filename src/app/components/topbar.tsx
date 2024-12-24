@@ -9,7 +9,7 @@ export default function Topbar() {
         <span className="text-lg">Hello</span>
       </div>
 
-      <div className="space-x-8">
+      {/* <div className="space-x-8">
         <Link
           href="#about"
           className="text-gray-700 hover:text-blue-500 font-medium"
@@ -28,7 +28,8 @@ export default function Topbar() {
         >
           Contact
         </Link>
-      </div>
+      </div> */}
+      <p>WATERLOO 09:41 2°C</p>
 
       <div className="flex space-x-4">
         <a
