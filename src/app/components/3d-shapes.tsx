@@ -11,18 +11,20 @@ type TorusData = {
 
 export default function ThreeDShapes() {
   const mountRef = useRef<HTMLDivElement | null>(null);
-  const mouse = useRef({ x: 0, y: 0 });
 
-  const MIN_DISTANCE = 6; // Distance to trigger repulsion
-  const REPULSION_STRENGTH = 0.5; // How strongly they repel away from cursor
-  const RESTORING_STRENGTH = 0.003; // How strongly they go back to spawn point
-  const FRICTION = 0.8; // How quickly they slow down
-  const MIN_VELOCITY = 0.005; // The minimum speed they maintain
+  const pointer = useRef(new THREE.Vector2());
+
+  const MIN_DISTANCE = 4;            // Distance from spawn to begin restoring
+  const REPULSION_STRENGTH = 0.2;    // How strongly they repel when mouse intersects
+  const RESTORING_STRENGTH = 0.006;  // How strongly they go back to spawn point
+  const FRICTION = 0.9;             // How quickly they slow down
+  const MIN_VELOCITY = 0.001;       // The minimum speed they maintain
 
   useEffect(() => {
     if (!mountRef.current) return;
 
     const scene = new THREE.Scene();
+
     const camera = new THREE.PerspectiveCamera(
       75,
       window.innerWidth / window.innerHeight,
@@ -36,15 +38,15 @@ export default function ThreeDShapes() {
     renderer.setPixelRatio(window.devicePixelRatio);
     mountRef.current.appendChild(renderer.domElement);
 
+    const raycaster = new THREE.Raycaster();
+
     const toruses: TorusData[] = [];
     const numToruses = 8;
 
-    const torusGeometry = new THREE.TorusGeometry(1, 0.4, 16, 100);
-
     for (let i = 0; i < numToruses; i++) {
       const colors = [
-        { color: 0x28282B, weight: 0.4 },
-        { color: 0xC0C0C0, weight: 0.25 },
+        { color: 0x28282b, weight: 0.4 },
+        { color: 0xc0c0c0, weight: 0.25 },
         { color: 0xb0c4de, weight: 0.35 },
       ];
 
@@ -58,30 +60,30 @@ export default function ThreeDShapes() {
             return c.color;
           }
         }
+        return 0x28282b;
       };
 
-      const isCuboid = Math.random() < 0.4; // 40% chance for cuboids
-
-      let geometry, material;
-
+      // 40% chance for a cuboid, else a torus
+      const isCuboid = Math.random() < 0.4;
+      let geometry: THREE.BufferGeometry;
       if (isCuboid) {
-        const length = 2.8;
-        const side = 0.7;
-        geometry = new THREE.BoxGeometry(length, side, side);
+        geometry = new THREE.BoxGeometry(3.5, 0.9, 0.9);
       } else {
-        geometry = new THREE.TorusGeometry(1, 0.4, 16, 100);
+        geometry = new THREE.TorusGeometry(1.5, 0.6, 16, 100);
       }
 
-      material = new THREE.MeshStandardMaterial({
+      const material = new THREE.MeshStandardMaterial({
         color: new THREE.Color(pickColor()),
+        metalness: 0.8,
+        roughness: 0.2,
       });
 
       const shape = new THREE.Mesh(geometry, material);
 
       const spawnPosition = new THREE.Vector3(
-        Math.random() * 8 - 4, // X between -4 and 4
-        Math.random() * 6 - 3, // Y between -3 and 3
-        Math.random() * 4 - 2, // Z between -2 and 2
+        Math.random() * 8 - 4,
+        Math.random() * 6 - 3,
+        Math.random() * 4 - 2,
       );
       shape.position.copy(spawnPosition);
 
@@ -90,60 +92,87 @@ export default function ThreeDShapes() {
 
       toruses.push({
         mesh: shape,
-        velocity: new THREE.Vector3(0, 0, 0), // Initial velocity
+        velocity: new THREE.Vector3(0, 0, 0),
         spawnPosition,
       });
     }
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
     scene.add(ambientLight);
 
-    const pointLight = new THREE.PointLight(0xffffff, 1);
-    pointLight.position.set(5, 5, 5);
+    const pointLight = new THREE.PointLight(0xffffff, 0.3);
+    pointLight.position.set(0, 0, 8);
     pointLight.castShadow = true;
     scene.add(pointLight);
 
+    const directionalLight = new THREE.DirectionalLight(0xffff00, 0.8);
+    directionalLight.position.set(6, 10, 6);
+    directionalLight.castShadow = true;
+    scene.add(directionalLight);
+
+    const height = 14;
+    const radius = 6;
+    const radialSegments = 32;
+    
+    const coneGeometry = new THREE.ConeGeometry(radius, height, radialSegments);
+    coneGeometry.translate(0, height / 2, 0);
+
+    const coneMaterial = new THREE.MeshBasicMaterial({
+      color: 0xffff00,
+      transparent: true,
+      opacity: 0.25,
+      side: THREE.DoubleSide,
+    });
+
+    const sunRayCone = new THREE.Mesh(coneGeometry, coneMaterial);
+    sunRayCone.position.set(6, 10, 6);
+    sunRayCone.lookAt(0, 0, 0);
+    scene.add(sunRayCone);
+
     const handleMouseMove = (event: MouseEvent) => {
-      const rect = renderer.domElement.getBoundingClientRect();
-      mouse.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-      mouse.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+      pointer.current.x = (event.clientX / window.innerWidth) * 2 - 1;
+      pointer.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    };
+
+    const getScreenBounds = () => {
+      const vFOV = (camera.fov * Math.PI) / 180;
+      const visibleHeight = 2 * Math.tan(vFOV / 2) * camera.position.z;
+      const visibleWidth = visibleHeight * camera.aspect;
+
+      return {
+        halfWidth: visibleWidth / 2,
+        halfHeight: visibleHeight / 2,
+      };
     };
 
     const animate = () => {
       requestAnimationFrame(animate);
 
-      const boundaryX = 4;
-      const boundaryY = 3;
-      const spawnProximity = 0.5;
+      raycaster.setFromCamera(pointer.current, camera);
+      const intersects = raycaster.intersectObjects(scene.children, true);
+
+      const intersectedObjects = new Set<THREE.Object3D>();
+      intersects.forEach((hit) => {
+        intersectedObjects.add(hit.object);
+      });
+
+      const { halfWidth, halfHeight } = getScreenBounds();
 
       toruses.forEach((torusData) => {
         const { mesh, velocity, spawnPosition } = torusData;
 
-        const mouseVector = new THREE.Vector3(
-          mouse.current.x * 4,
-          mouse.current.y * 4,
-          0,
-        );
-        const torusVector = new THREE.Vector3(
-          mesh.position.x,
-          mesh.position.y,
-          mesh.position.z,
-        );
-        const distance = mouseVector.distanceTo(torusVector);
+        if (intersectedObjects.has(mesh)) {
+          const pushDirection = new THREE.Vector3(
+            Math.random() - 0.5,
+            Math.random() - 0.5,
+            0,
+          ).normalize();
 
-        // Apply repelling force if within MIN_DISTANCE
-        if (distance < MIN_DISTANCE) {
-          const direction = new THREE.Vector3()
-            .subVectors(torusVector, mouseVector)
-            .normalize()
-            .multiplyScalar((MIN_DISTANCE - distance) * REPULSION_STRENGTH);
-
-          velocity.add(direction);
+          velocity.addScaledVector(pushDirection, REPULSION_STRENGTH);
         }
 
-        // Apply restoring force if outside spawnProximity
         const spawnDistance = mesh.position.distanceTo(spawnPosition);
-        if (spawnDistance > spawnProximity) {
+        if (spawnDistance > MIN_DISTANCE) {
           const restoringForce = new THREE.Vector3()
             .subVectors(spawnPosition, mesh.position)
             .normalize()
@@ -152,46 +181,39 @@ export default function ThreeDShapes() {
           velocity.add(restoringForce);
         }
 
-        // Update position based on velocity
         mesh.position.add(velocity);
 
-        // Apply friction
         velocity.multiplyScalar(FRICTION);
 
-        // Maintain a minimum velocity (otherwise they stop too abruptly)
         if (velocity.length() < MIN_VELOCITY) {
           velocity.setLength(MIN_VELOCITY);
         }
 
-        // Bounce when hitting screen boundaries
-        if (mesh.position.x > boundaryX || mesh.position.x < -boundaryX) {
+        if (mesh.position.x > halfWidth || mesh.position.x < -halfWidth) {
           velocity.x *= -1;
           mesh.position.x = Math.max(
-            Math.min(mesh.position.x, boundaryX),
-            -boundaryX,
+            Math.min(mesh.position.x, halfWidth),
+            -halfWidth,
           );
         }
-        if (mesh.position.y > boundaryY || mesh.position.y < -boundaryY) {
+        if (mesh.position.y > halfHeight || mesh.position.y < -halfHeight) {
           velocity.y *= -1;
           mesh.position.y = Math.max(
-            Math.min(mesh.position.y, boundaryY),
-            -boundaryY,
+            Math.min(mesh.position.y, halfHeight),
+            -halfHeight,
           );
         }
 
-        // shape rotation
-        mesh.rotation.x += 0.005;
-        mesh.rotation.y += 0.005;
+        mesh.rotation.x += 0.002;
+        mesh.rotation.y += 0.002;
       });
 
       renderer.render(scene, camera);
     };
     animate();
 
-    // Add Event Listener
     window.addEventListener("mousemove", handleMouseMove);
 
-    // Handle Resizing
     const handleResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
@@ -199,7 +221,6 @@ export default function ThreeDShapes() {
     };
     window.addEventListener("resize", handleResize);
 
-    // Cleanup
     return () => {
       if (mountRef.current) {
         mountRef.current.removeChild(renderer.domElement);
