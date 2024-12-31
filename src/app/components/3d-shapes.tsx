@@ -14,11 +14,11 @@ export default function ThreeDShapes() {
 
   const pointer = useRef(new THREE.Vector2());
 
-  const MIN_DISTANCE = 4;            // Distance from spawn to begin restoring
-  const REPULSION_STRENGTH = 0.2;    // How strongly they repel when mouse intersects
-  const RESTORING_STRENGTH = 0.006;  // How strongly they go back to spawn point
-  const FRICTION = 0.9;             // How quickly they slow down
-  const MIN_VELOCITY = 0.001;       // The minimum speed they maintain
+  const MIN_DISTANCE = 4; // Distance from spawn to begin restoring
+  const REPULSION_STRENGTH = 0.25; // How strongly they repel when mouse intersects
+  const RESTORING_STRENGTH = 0.001; // How strongly they go back to spawn point
+  const FRICTION = 0.9; // How quickly they slow down
+  const MIN_VELOCITY = 0.001; // The minimum speed they maintain
 
   useEffect(() => {
     if (!mountRef.current) return;
@@ -113,7 +113,7 @@ export default function ThreeDShapes() {
     const height = 14;
     const radius = 6;
     const radialSegments = 32;
-    
+
     const coneGeometry = new THREE.ConeGeometry(radius, height, radialSegments);
     coneGeometry.translate(0, height / 2, 0);
 

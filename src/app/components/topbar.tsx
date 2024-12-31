@@ -31,42 +31,7 @@ export default function Topbar() {
       </div> */}
       <p>WATERLOO 09:41 2°C</p>
 
-      <div className="flex space-x-4">
-        <a
-          href="https://github.com/sohambasu963"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:scale-110 transform transition duration-200"
-        >
-          <Image
-            src="/images/github-logo.svg"
-            alt="GitHub Logo"
-            width={32}
-            height={32}
-          />
-        </a>
-        <a
-          href="https://github.com/sohambasu963"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:scale-110 transform transition duration-200"
-        >
-          <Image
-            src="/images/linkedin-logo.svg"
-            alt="LinkedIn Logo"
-            width={32}
-            height={32}
-          />
-        </a>
-        <a
-          href="https://x.com/sohambasu963"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:scale-110 transform transition duration-200"
-        >
-          <Image src="/images/x-logo.svg" alt="X Logo" width={32} height={32} />
-        </a>
-      </div>
+      <p>Dark Mode</p>
     </div>
   );
 }
