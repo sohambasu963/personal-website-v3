@@ -3,7 +3,6 @@ import Image from "next/image";
 export default function Contact() {
   return (
     <div className="flex justify-between items-center w-full px-4">
-      {/* Icons on the left */}
       <div className="flex items-center space-x-6">
         <a
           href="https://github.com/sohambasu963"
@@ -37,16 +36,10 @@ export default function Contact() {
           rel="noopener noreferrer"
           className="hover:scale-110 transform transition duration-200"
         >
-          <Image
-            src="/images/x-logo.svg"
-            alt="X Logo"
-            width={32}
-            height={32}
-          />
+          <Image src="/images/x-logo.svg" alt="X Logo" width={32} height={32} />
         </a>
       </div>
 
-      {/* Email on the right */}
       <div className="text-right">
         <a
           href="mailto:hello@sohambasu.com"
