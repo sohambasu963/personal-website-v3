@@ -6,11 +6,8 @@ import ThreeDShapes from "./components/3d-shapes";
 import Contact from "./components/contact";
 
 export default function Home() {
-
   return (
-    <div
-      className="relative min-h-screen flex flex-col justify-between"
-    >
+    <div className="relative min-h-screen w-full flex flex-col justify-between overflow-x-hidden">
       <div className="flex-grow">
         <ThreeDShapes />
         <Topbar />
