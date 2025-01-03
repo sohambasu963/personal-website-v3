@@ -7,7 +7,7 @@ const Cursor = () => {
   const [circlePosition, setCirclePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    const updateCursorPosition = (e: any) => {
+    const updateCursorPosition = (e: MouseEvent) => {
       setCursorPosition({ x: e.clientX, y: e.clientY });
     };
 

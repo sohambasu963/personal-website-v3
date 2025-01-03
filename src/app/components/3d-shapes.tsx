@@ -50,7 +50,6 @@ export default function ThreeDShapes() {
         { color: 0x4682b4, weight: 0.25 },
         { color: 0xc0c0c0, weight: 0.25 },
       ];
-      
 
       const pickColor = () => {
         const totalWeight = colors.reduce((sum, c) => sum + c.weight, 0);
