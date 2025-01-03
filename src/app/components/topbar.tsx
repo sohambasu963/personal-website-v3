@@ -1,14 +1,13 @@
-import Link from "next/link";
-import Image from "next/image";
-import { Moon, Sun } from "lucide-react";
+"use client";
 
-export default function Topbar({
-  isDarkMode,
-  setIsDarkMode,
-}: {
-  isDarkMode: boolean;
-  setIsDarkMode: (isDarkMode: boolean) => void;
-}) {
+import * as React from "react";
+import { Sun, Moon } from "lucide-react";
+import { useTheme } from "next-themes";
+
+export default function Topbar() {
+  const { theme, setTheme } = useTheme();
+  const isDark = theme === "dark";
+
   return (
     <div className="z-50 flex items-center justify-between px-6 py-4">
       <div className="flex items-center space-x-2">
@@ -20,11 +19,9 @@ export default function Topbar({
 
       <button
         className="z-50 shadow-md p-2 rounded-md bg-white text-black dark:bg-black dark:text-white"
-        onClick={() => {
-          setIsDarkMode(!isDarkMode);
-        }}
+        onClick={() => setTheme(isDark ? "light" : "dark")}
       >
-        {isDarkMode ? <Sun /> : <Moon />}
+        {isDark ? <Sun /> : <Moon />}
       </button>
     </div>
   );
