@@ -11,8 +11,11 @@ export default function Home() {
       <div className="flex-grow">
         <ThreeDShapes />
         <Topbar />
-        <div className="flex justify-center">
-          <h1 className="mt-[20%] font-tiempos text-4xl">Hi, I'm Soham</h1>
+        <div className="mt-[20%] flex flex-col justify-center text-center">
+          <h1 className="font-tiempos text-4xl">Hi, I'm Soham!</h1>
+          <h2 className="mt-8 font-tiempos text-2xl">Software Engineer | CS + Finance @ UWaterloo</h2>
+          {/* <h2 className="mt-8 font-tiempos text-2xl">Engineering software at startups (prev. at Amazon)</h2>
+          <h3 className="mt-2 font-tiempos text-2xl">CS + Finance @ UWaterloo</h3> */}
         </div>
       </div>
 
