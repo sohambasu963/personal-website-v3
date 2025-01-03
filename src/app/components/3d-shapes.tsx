@@ -46,10 +46,11 @@ export default function ThreeDShapes() {
 
     for (let i = 0; i < numToruses; i++) {
       const colors = [
-        { color: 0x28282b, weight: 0.4 },
+        { color: 0x1e90ff, weight: 0.5 },
+        { color: 0x4682b4, weight: 0.25 },
         { color: 0xc0c0c0, weight: 0.25 },
-        { color: 0xb0c4de, weight: 0.35 },
       ];
+      
 
       const pickColor = () => {
         const totalWeight = colors.reduce((sum, c) => sum + c.weight, 0);
@@ -101,7 +102,7 @@ export default function ThreeDShapes() {
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
     scene.add(ambientLight);
 
-    const pointLight = new THREE.PointLight(0xffffff, 0.3);
+    const pointLight = new THREE.PointLight(0xffd700, 0.2); // gold point light
     pointLight.position.set(0, 0, 8);
     pointLight.castShadow = true;
     scene.add(pointLight);
