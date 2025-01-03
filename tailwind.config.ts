@@ -18,6 +18,6 @@ export default {
       },
     },
   },
-  plugins: [require('tailwindcss-textshadow')],
+  plugins: [require("tailwindcss-textshadow")],
   darkMode: "class",
 } satisfies Config;

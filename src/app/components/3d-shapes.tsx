@@ -2,6 +2,7 @@
 
 import { useRef, useEffect } from "react";
 import * as THREE from "three";
+import { isMobile } from "react-device-detect";
 
 type TorusData = {
   mesh: THREE.Mesh;
@@ -41,7 +42,7 @@ export default function ThreeDShapes() {
     const raycaster = new THREE.Raycaster();
 
     const toruses: TorusData[] = [];
-    const numToruses = 8;
+    const numToruses = isMobile ? 5 : 8;
 
     for (let i = 0; i < numToruses; i++) {
       const colors = [
