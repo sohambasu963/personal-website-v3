@@ -12,7 +12,7 @@ export default function Topbar() {
     <div className="z-50 flex items-center justify-between px-6 py-4">
       <div className="flex items-center space-x-2">
         <span className="text-xl">👋</span>
-        <span className="text-lg">Hello</span>
+        <span className="text-lg font-tiempos">Hello</span>
       </div>
 
       <p className="text-base text-black dark:text-cream font-mono">WATERLOO 09:41 2°C</p>

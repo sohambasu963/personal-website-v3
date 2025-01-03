@@ -13,6 +13,7 @@ export default {
         "dark-gray": "#303030",
       },
       fontFamily: {
+        tiempos: ["Tiempos Headline Light", "sans-serif"],
         mono: ["ABC Monument Grotesk Mono", "monospace"],
       },
     },

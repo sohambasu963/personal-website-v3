@@ -43,7 +43,7 @@ export default function Contact() {
       <div className="text-right">
         <a
           href="mailto:hello@sohambasu.com"
-          className="text-2xl text-black dark:text-cream hover:underline"
+          className="font-tiempos text-2xl text-black dark:text-cream hover:underline"
         >
           hello@sohambasu.com
         </a>

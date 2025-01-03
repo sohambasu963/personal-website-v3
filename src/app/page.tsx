@@ -15,7 +15,7 @@ export default function Home() {
         <ThreeDShapes />
         <Topbar />
         <div className="flex justify-center">
-          <h1 className="mt-[20%]">Hello</h1>
+          <h1 className="mt-[20%] font-tiempos text-4xl">Hi, I'm Soham</h1>
         </div>
       </div>
 

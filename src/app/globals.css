@@ -4,12 +4,19 @@
 
 
 @font-face {
+  font-family: "Tiempos Headline Light";
+  font-style: light;
+  font-weight: light;
+  src: url("/fonts/tiempos-headline-light.woff2")
+    format("woff2");
+}
+
+@font-face {
   font-family: "ABC Monument Grotesk Mono";
   font-style: light;
   font-weight: light;
   src: url("/fonts/ABCMonumentGroteskMono-Light.woff") format("woff");
 }
-
 
 body {
   background-image: radial-gradient(circle, #919191 1px, transparent 1px);
