@@ -8,7 +8,7 @@ export default function Contact() {
           href="https://github.com/sohambasu963"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:scale-110 transform transition duration-200"
+          className="hover:scale-110 transform transition duration-200 dark:invert"
         >
           <Image
             src="/images/github-logo.svg"
@@ -34,7 +34,7 @@ export default function Contact() {
           href="https://x.com/sohambasu963"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:scale-110 transform transition duration-200"
+          className="hover:scale-110 transform transition duration-200 dark:invert"
         >
           <Image src="/images/x-logo.svg" alt="X Logo" width={32} height={32} />
         </a>

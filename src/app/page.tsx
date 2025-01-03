@@ -12,7 +12,7 @@ export default function Home() {
         <ThreeDShapes />
         <Topbar />
         <div className="mt-[20%] flex flex-col justify-center text-center">
-          <h1 className="font-tiempos text-4xl">Hi, I'm Soham!</h1>
+          <h1 className="font-tiempos text-4xl drop-shadow-lg">Hi, I'm Soham!</h1>
           <h2 className="mt-8 font-tiempos text-2xl">
             Software Engineer | CS + Finance @ UWaterloo
           </h2>
