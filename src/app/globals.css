@@ -20,13 +20,12 @@ body {
   background-image: radial-gradient(circle, #919191 1px, transparent 1px);
   background-size: 40px 40px;
   background-color: #fbf8ef;
-  cursor: url('/images/cursor.svg'), auto;
+  cursor: url("/images/cursor.svg"), auto;
 }
 
 .dark body {
   background-image: radial-gradient(circle, #919191 1px, transparent 1px);
   background-size: 40px 40px;
   background-color: #303030;
-  cursor: url('/images/cursor.svg'), auto;
+  cursor: url("/images/cursor.svg"), auto;
 }
-
