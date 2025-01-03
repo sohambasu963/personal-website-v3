@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@font-face {
+  font-family: "ABC Monument Grotesk Mono";
+  font-style: light;
+  font-weight: light;
+  src: url("/fonts/ABCMonumentGroteskMono-Light.woff") format("woff");
+}
+
+
 body {
   background-image: radial-gradient(circle, #919191 1px, transparent 1px);
   background-size: 40px 40px;

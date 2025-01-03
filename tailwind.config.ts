@@ -9,8 +9,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        cream: "#FBF8EF",
+        "dark-gray": "#303030",
+      },
+      fontFamily: {
+        mono: ["ABC Monument Grotesk Mono", "monospace"],
       },
     },
   },
