@@ -47,7 +47,7 @@ export default function Topbar() {
 
   if (!mounted) {
     return (
-      <div className="z-50 flex items-center justify-between px-6 py-4">
+      <div className="z-50 flex items-center justify-between px-2 md:px-6 py-2 md:py-4">
         <a href="/" className="flex items-center space-x-2">
           <span className="text-xl">👋</span>
           <span className="text-lg font-tiempos">Hello</span>
@@ -68,7 +68,7 @@ export default function Topbar() {
   }
 
   return (
-    <div className="z-50 flex items-center justify-between px-6 py-4">
+    <div className="z-50 flex items-center justify-between px-2 md:px-6 py-2 md:py-4">
       <a href="/" className="flex items-center space-x-2">
         <span className="text-xl">👋</span>
         <span className="text-lg font-tiempos">Hello</span>

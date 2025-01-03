@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function Contact() {
   return (
     <div className="flex justify-between items-center w-full px-4">
-      <div className="flex items-center space-x-6">
+      <div className="flex items-center space-x-2 md:space-x-6">
         <a
           href="https://github.com/sohambasu963"
           target="_blank"
@@ -43,7 +43,7 @@ export default function Contact() {
       <div className="text-right">
         <a
           href="mailto:hello@sohambasu.com"
-          className="font-tiempos text-2xl text-black dark:text-cream hover:underline"
+          className="font-tiempos text-lg md:text-2xl text-black dark:text-cream hover:underline"
         >
           hello@sohambasu.com
         </a>
