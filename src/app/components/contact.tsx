@@ -34,18 +34,21 @@ export default function Contact() {
           href="https://x.com/sohambasu963"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:scale-110 transform transition duration-200 dark:invert"
+          className="hover:scale-110 transform transition duration-200 dark:invert mt-[2px]"
         >
-          <Image src="/images/x-logo.svg" alt="X Logo" width={32} height={32} />
+          <Image src="/images/x-logo.svg" alt="X Logo" width={20} height={20} />
         </a>
       </div>
 
       <div className="text-right">
         <a
           href="mailto:hello@sohambasu.com"
-          className="font-tiempos text-lg md:text-2xl text-black dark:text-cream hover:underline"
+          className="font-mono text-md md:text-lg text-black dark:text-cream hover:underline"
         >
-          hello@sohambasu.com
+          <span className="text-lg font-mono">hello@sohambas
+            <span className="tracking-[-0.2em]">u.</span>
+            com
+          </span>
         </a>
       </div>
     </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, Home } from "lucide-react";
 import { useTheme } from "next-themes";
 import { getCurrentTime, fetchWeatherData } from "../utils";
 
@@ -48,10 +48,13 @@ export default function Topbar() {
   if (!mounted) {
     return (
       <div className="z-50 flex items-center justify-between px-2 md:px-6 py-2 md:py-4">
-        <div className="flex items-center space-x-2">
-          <span className="text-xl">👋</span>
-          <span className="text-lg font-tiempos">Hello</span>
-        </div>
+        <a href="/" className="flex items-center space-x-2">
+          <span className="-mt-1 md:hidden"><Home /></span>
+          <span className="hidden md:block text-lg font-mono">sohambas
+            <span className="tracking-[-0.2em]">u.</span>
+            com
+          </span>
+        </a>
         <p className="text-base text-black dark:text-cream font-mono">
           WATERLOO --:-- _°_
         </p>
@@ -69,10 +72,13 @@ export default function Topbar() {
 
   return (
     <div className="z-50 flex items-center justify-between px-2 md:px-6 py-2 md:py-4">
-      <div className="flex items-center space-x-2">
-        <span className="text-xl">👋</span>
-        <span className="text-lg font-tiempos">Hello</span>
-      </div>
+      <a href="/" className="flex items-center space-x-2">
+        <span className="-mt-1 md:hidden"><Home /></span>
+        <span className="hidden md:block text-lg font-mono">sohambas
+          <span className="tracking-[-0.2em]">u.</span>
+          com
+        </span>
+      </a>
 
       <p className="text-base text-black dark:text-cream font-mono">
         WATERLOO {time} {weather}
