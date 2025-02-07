@@ -42,7 +42,7 @@ export default function ThreeDShapes() {
     const raycaster = new THREE.Raycaster();
 
     const toruses: TorusData[] = [];
-    const numToruses = isMobile ? 5 : 12;
+    const numToruses = isMobile ? 8 : 12;
 
     const cubeTextureLoader = new THREE.CubeTextureLoader();
     const envMap = cubeTextureLoader.load([
