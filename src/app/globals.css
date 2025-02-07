@@ -21,6 +21,7 @@ body {
   background-size: 40px 40px;
   background-color: #fbf8ef;
   cursor: url("/images/cursor.svg"), auto;
+  transition: background-color 500ms ease, color 500ms ease;
 }
 
 .dark body {
