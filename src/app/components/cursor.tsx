@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { isMobile } from "react-device-detect";
 
 const Cursor = () => {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
@@ -23,8 +24,10 @@ const Cursor = () => {
       requestAnimationFrame(followCursor);
     };
 
-    document.addEventListener("mousemove", updateCursorPosition);
-    requestAnimationFrame(followCursor);
+    if (!isMobile) {
+      document.addEventListener("mousemove", updateCursorPosition);
+      requestAnimationFrame(followCursor);
+    }
 
     return () => {
       document.removeEventListener("mousemove", updateCursorPosition);
@@ -33,16 +36,18 @@ const Cursor = () => {
 
   return (
     <>
-      <div
-        className="fixed rounded-full border border-dark-gray dark:border-cream pointer-events-none z-50"
-        style={{
-          width: "80px",
-          height: "80px",
-          left: `${circlePosition.x}px`,
-          top: `${circlePosition.y}px`,
-          transform: "translate(-50%, -50%)",
-        }}
-      ></div>
+      {!isMobile && (
+        <div
+          className="fixed rounded-full border border-dark-gray dark:border-cream pointer-events-none z-50"
+          style={{
+            width: "80px",
+            height: "80px",
+            left: `${circlePosition.x}px`,
+            top: `${circlePosition.y}px`,
+            transform: "translate(-50%, -50%)",
+          }}
+        ></div>
+      )}
     </>
   );
 };
