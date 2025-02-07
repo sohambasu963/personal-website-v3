@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Sun, Moon, Home } from "lucide-react";
 import { useTheme } from "next-themes";
-import { getCurrentTime, fetchWeatherData } from "../utils";
+import { getCurrentTime, fetchWeatherData, getUserLocationData } from "../utils";
 import Link from "next/link";
 
 export default function Topbar() {
@@ -15,6 +15,7 @@ export default function Topbar() {
 
   const [time, setTime] = useState(getCurrentTime());
   const [weather, setWeather] = useState<string>("_°_");
+  const [city, setCity] = useState("________");
 
   useEffect(() => {
     setMounted(true);
@@ -35,7 +36,9 @@ export default function Topbar() {
 
   useEffect(() => {
     async function getWeather() {
-      const weatherData = await fetchWeatherData();
+      const locationData = await getUserLocationData();
+      setCity(locationData?.city);
+      const weatherData = await fetchWeatherData(locationData?.latitude, locationData?.longitude);
       const temperature = weatherData?.current?.temperature_2m
         ? Math.round(weatherData.current.temperature_2m).toString() + "°C"
         : "N/A";
@@ -57,7 +60,7 @@ export default function Topbar() {
           </span>
         </Link>
         <p className="absolute left-1/2 transform -translate-x-1/2 text-base text-black dark:text-cream font-mono">
-          WATERLOO --:-- _°_
+          <span className="uppercase">{city}</span> {time} {weather}
         </p>
         <button
           className="z-50 shadow-md p-2 rounded-md bg-white text-black dark:bg-black dark:text-white"
@@ -82,7 +85,7 @@ export default function Topbar() {
       </Link>
 
       <p className="absolute left-1/2 transform -translate-x-1/2 text-base text-black dark:text-cream font-mono">
-        WATERLOO {time} {weather}
+        <span className="uppercase">{city}</span>  {time} {weather}
       </p>
 
       <button
