@@ -16,7 +16,7 @@ export default function ThreeDShapes() {
   const pointer = useRef(new THREE.Vector2());
 
   const MIN_DISTANCE = 4; // Distance from spawn to begin restoring
-  const REPULSION_STRENGTH = 0.25; // How strongly they repel when mouse intersects
+  const REPULSION_STRENGTH = 0.55; // How strongly they repel when mouse intersects
   const RESTORING_STRENGTH = 0.001; // How strongly they go back to spawn point
   const FRICTION = 0.9; // How quickly they slow down
   const MIN_VELOCITY = 0.001; // The minimum speed they maintain
@@ -42,69 +42,107 @@ export default function ThreeDShapes() {
     const raycaster = new THREE.Raycaster();
 
     const toruses: TorusData[] = [];
-    const numToruses = isMobile ? 5 : 8;
+    const numToruses = isMobile ? 5 : 12;
+
+    const cubeTextureLoader = new THREE.CubeTextureLoader();
+    const envMap = cubeTextureLoader.load([
+      '/textures/env/px.png',
+      '/textures/env/nx.png',
+      '/textures/env/py.png',
+      '/textures/env/ny.png',
+      '/textures/env/pz.png',
+      '/textures/env/nz.png'
+    ]);
+
+    // Assign the environment map to the scene so that it is automatically used for reflections:
+    scene.environment = envMap;
+
 
     for (let i = 0; i < numToruses; i++) {
-      const colors = [
-        { color: 0x1e90ff, weight: 0.5 },
-        { color: 0x4682b4, weight: 0.25 },
-        { color: 0xc0c0c0, weight: 0.25 },
-      ];
-
-      const pickColor = () => {
-        const totalWeight = colors.reduce((sum, c) => sum + c.weight, 0);
-        const random = Math.random() * totalWeight;
-        let cumulativeWeight = 0;
-        for (const c of colors) {
-          cumulativeWeight += c.weight;
-          if (random < cumulativeWeight) {
-            return c.color;
-          }
-        }
-        return 0x28282b;
-      };
-
-      // 40% chance for a cuboid, else a torus
-      const isCuboid = Math.random() < 0.4;
-      let geometry: THREE.BufferGeometry;
-      if (isCuboid) {
-        geometry = new THREE.BoxGeometry(3.5, 0.9, 0.9);
-      } else {
-        geometry = new THREE.TorusGeometry(1.5, 0.6, 16, 100);
-      }
-
-      const material = new THREE.MeshStandardMaterial({
-        color: new THREE.Color(pickColor()),
+      // Create a sphere geometry
+      const sphereGeometry = new THREE.SphereGeometry(1.5, 64, 64);
+    
+      // Create a glass-like material (or you could factor this out and reuse the same material)
+      const glassMaterial = new THREE.MeshPhysicalMaterial({
+        color: new THREE.Color(0xfbf8ef),
         metalness: 0.8,
-        roughness: 0.2,
+        roughness: 0,
+        transmission: 1,
+        transparent: true,
+        opacity: 0.25,
+        clearcoat: 1,
+        clearcoatRoughness: 0,
+        side: THREE.DoubleSide,
+        // envMap: envMap,
       });
-
-      const shape = new THREE.Mesh(geometry, material);
-
+    
+      // Create the mesh
+      const sphereMesh = new THREE.Mesh(sphereGeometry, glassMaterial);
+    
+      // Set a spawn position (you can reuse your current logic)
       const spawnPosition = new THREE.Vector3(
         Math.random() * 8 - 4,
         Math.random() * 6 - 3,
         Math.random() * 4 - 2,
       );
-      shape.position.copy(spawnPosition);
-
-      shape.castShadow = true;
-      scene.add(shape);
-
+      sphereMesh.position.copy(spawnPosition);
+    
+      sphereMesh.castShadow = true;
+      scene.add(sphereMesh);
+    
       toruses.push({
-        mesh: shape,
+        mesh: sphereMesh,
         velocity: new THREE.Vector3(0, 0, 0),
         spawnPosition,
       });
     }
+    
 
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
     scene.add(ambientLight);
 
-    const pointLight = new THREE.PointLight(0xffd700, 0.2); // gold point light
-    pointLight.position.set(0, 0, 8);
+    const pointLight = new THREE.PointLight(0xffffff, 1);  // Increase intensity
+    pointLight.position.set(10, 10, 10);  // Shift light position for better shadow casting
     pointLight.castShadow = true;
     scene.add(pointLight);
+
+    // Add Hemisphere Light for ambient effect
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.6);
+    hemiLight.position.set(0, 20, 0);
+    scene.add(hemiLight);
+
+    // Enable shadow mapping
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    // Ground plane to receive shadows
+    const ground = new THREE.Mesh(
+      new THREE.PlaneGeometry(200, 200),
+      new THREE.ShadowMaterial({ opacity: 0.1 }) // Subtle shadow opacity
+    );
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = -3;
+    ground.receiveShadow = true;
+    scene.add(ground);
+
+    // Adjust Point Light for smaller shadows
+    pointLight.castShadow = true;
+    pointLight.shadow.mapSize.width = 1024;
+    pointLight.shadow.mapSize.height = 1024;
+
+    pointLight.shadow.bias = -0.01;  // Reduces shadow "puffiness" or spread
+
+    // Control shadow camera properties for tighter shadows
+    pointLight.shadow.camera.near = 2;  // Start shadows closer to the object
+    pointLight.shadow.camera.far = 20;  // Limit how far shadows extend
+
+    pointLight.shadow.radius = 4;  // Optional: soften shadow edges
+    pointLight.intensity = 0.8;  // Adjust light intensity to balance shadows
+
+    // Optional: Make ambient light slightly brighter to reduce shadow dominance
+    ambientLight.intensity = 0.4;
+
+
 
     const directionalLight = new THREE.DirectionalLight(0xffff00, 0.8);
     directionalLight.position.set(6, 10, 6);
